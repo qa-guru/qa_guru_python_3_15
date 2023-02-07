@@ -7,15 +7,15 @@ import random
 from filelock import FileLock
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def session_scoped_fixture():
-    pass
+    return random.randint(0, 100000)
 
 
-@pytest.mark.parametrize("param", range(20))
-def test_many_params(param):
+@pytest.mark.parametrize("param", range(10))
+def test_many_params(param, random_number):
     """"""
-    # time.sleep(1)
+    allure.dynamic.description(random_number)
 
 
 @pytest.fixture(scope="session")

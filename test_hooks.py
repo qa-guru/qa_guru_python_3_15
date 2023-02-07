@@ -4,7 +4,9 @@ import pytest
 
 @pytest.fixture()
 def browser(request: pytest.FixtureRequest):
-    pass
+    # assert request.config.getoption("browser") == "chrome"
+    assert request.param == "chrome-latest"
+    print()
 
 
 def pytest_generate_tests(metafunc: pytest.Metafunc):
@@ -12,8 +14,9 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
         metafunc.parametrize("browser", [metafunc.config.getoption("--browser")], indirect=True)
 
 
-def test_desktop_page(browser, request):
-    pass
+@pytest.mark.parametrize("some", [1, 2, 3])
+def test_desktop_page(browser, request, some):
+    assert False
 
 
 def test_mobile_page(browser):
