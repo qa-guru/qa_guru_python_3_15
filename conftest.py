@@ -40,10 +40,16 @@ def pytest_runtest_call(item: pytest.Item):
 def pytest_collection_modifyitems(config: pytest.Config, items: list[pytest.Item]):
     """Skip other tests if mobile-only option is True"""
 
-    for item in items:
-        if "mobile" not in item.name and config.getoption("--mobile-only"):
-            item.add_marker(pytest.mark.skip(reason="Mobile tests only"))
-            item.add_marker(pytest.mark.mobile)
+    # for item in items:
+    #     if "mobile" not in item.name and config.getoption("--mobile-only"):
+    #         item.add_marker(pytest.mark.skip(reason="Mobile tests only"))
+    #         item.add_marker(pytest.mark.mobile)
+    if config.getoption("--mobile-only"):
+        new_items = []
+        for item in items:
+            if "mobile" in item.name:
+                new_items.append(item)
+        items[:] = new_items
     items.sort(key=lambda x: x.name, reverse=True)
 
 
